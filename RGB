@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-img = cv2.imread('flowers.jpg')
+img = cv2.imread("mans.jpg")
 img = img / 255
 
 B, G, R = img[:, :, 0], img[:, :, 1], img[:, :, 2]
@@ -15,7 +15,7 @@ cmy_image = cv2.merge([C, M, Y])
 cmy_image = (cmy_image * 255).astype(np.uint8)
 plt.imshow(cmy_image)
 
-bgr_image = cv2.imread('flowers.jpg')
+bgr_image = cv2.imread("mans.jpg")
 rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
 rgb_image = rgb_image / 255.0
 
@@ -30,11 +30,11 @@ cmyk_image = cv2.merge([c, m, y, k])
 cmyk_image = (cmyk_image * 255).astype(np.uint8)
 plt.imshow(cmyk_image)
 
-image = cv2.imread('facedetection.jpeg')
+image = cv2.imread('mans.jpg')
 hsi_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV_FULL)
 plt.imshow(hsi_image)
 
-bgr_image = cv2.imread('facedetection.jpeg')
+bgr_image = cv2.imread('mans.jpg')
 rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
 rgb_image = rgb_image / 255.0
 
