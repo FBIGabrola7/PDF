@@ -1,0 +1,51 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+img = cv2.imread('flowers.jpg')
+img = img / 255
+
+B, G, R = img[:, :, 0], img[:, :, 1], img[:, :, 2]
+
+C = 1 - R
+M = 1 - G
+Y = 1 - B
+
+cmy_image = cv2.merge([C, M, Y])
+cmy_image = (cmy_image * 255).astype(np.uint8)
+plt.imshow(cmy_image)
+
+bgr_image = cv2.imread('flowers.jpg')
+rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
+rgb_image = rgb_image / 255.0
+
+r, g, b = cv2.split(rgb_image)
+
+k = 1 - np.maximum(np.maximum(r, g), b)
+c = (1 - r - k) / (1 - k + 1e-10)
+m = (1 - g - k) / (1 - k + 1e-10)
+y = (1 - b - k) / (1 - k + 1e-10)
+
+cmyk_image = cv2.merge([c, m, y, k])
+cmyk_image = (cmyk_image * 255).astype(np.uint8)
+plt.imshow(cmyk_image)
+
+image = cv2.imread('facedetection.jpeg')
+hsi_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV_FULL)
+plt.imshow(hsi_image)
+
+bgr_image = cv2.imread('facedetection.jpeg')
+rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
+rgb_image = rgb_image / 255.0
+
+r, g, b = cv2.split(rgb_image)
+
+k = 1 - np.maximum(np.maximum(r, g), b)
+c = (1 - r - k) / (1 - k + 1e-10)
+m = (1 - g - k) / (1 - k + 1e-10)
+y = (1 - b - k) / (1 - k + 1e-10)
+
+cmyk_image = cv2.merge([c, m, y, k])
+cmyk_image = (cmyk_image * 255).astype(np.uint8)
+plt.imshow(cmyk_image)
+plt.show()
