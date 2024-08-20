@@ -1,0 +1,60 @@
+import cv2
+import matplotlib.pyplot as plt
+from PIL import Image
+
+img = cv2.imread("mans.jpg")
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+plt.figure(figsize=[10,8])
+plt.imshow(img)
+plt.show()
+
+img = Image.open("mans.jpg")
+plt.figure(figsize=[10,8])
+plt.imshow(img)
+plt.show()
+
+img = Image.open("mans.jpg")
+print("Image Size before resizing", img.size)
+img.thumbnail((1000, 800))
+print("Image Size after resizing", img.size)
+plt.figure(figsize=[10,10])
+plt.imshow(img)
+plt.show()
+
+img = cv2.imread("mans.jpg")
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+rotated_image = cv2.rotate(img, cv2.ROTATE_180)
+plt.imshow(rotated_image)
+plt.show()
+
+img = cv2.imread("mans.jpg")
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+rotatedImage = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
+plt.figure(figsize=[10,8])
+plt.imshow(rotatedImage)
+plt.show()
+
+im = cv2.imread('mans.jpg', cv2.IMREAD_GRAYSCALE)
+plt.figure(figsize=[10,8])
+plt.imshow(im, cmap='gray')
+plt.xticks([]), plt.yticks([])
+plt.show()
+
+image = cv2.imread("mans.jpg")
+plt.imshow(image)
+plt.title("mans.jpg")
+plt.xticks([]), plt.yticks([])
+plt.show()
+
+image = cv2.imread("mans.jpg", cv2.IMREAD_GRAYSCALE)
+plt.imshow(image, cmap="gray")
+plt.title("Grayscale image")
+plt.xticks([]), plt.yticks([])
+plt.show()
+
+thresh = 128
+img = cv2.threshold(image, thresh, 255, cv2.THRESH_BINARY)[1]
+plt.imshow(img, cmap="gray")
+plt.title("Binary image")
+plt.xticks([]), plt.yticks([])
+plt.show()
