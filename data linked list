@@ -1,0 +1,40 @@
+Traverse linked list 
+void traverse(Node* head) { 
+Node* current = head; 
+while (current != NULL) { 
+cout << current->data << " "; 
+current = current->next; 
+} 
+cout << endl; 
+} // O(n) 
+===============================================================================================
+Insert at beginning 
+void insertAtBeginning(Node*& head, int value) { 
+Node* newNode = new Node(value); 
+newNode->next = head; 
+head = newNode; 
+} // O(1) 
+===============================================================================================
+Insert at end 
+void insertAtEnd(Node*& head, int value) { 
+Node* newNode = new Node(value); 
+if (head == NULL) { 
+head = newNode; 
+return; 
+} 
+Node* temp = head; 
+while (temp->next != NULL) { 
+temp = temp->next; 
+} 
+temp->next = newNode; 
+} // O(n) 
+===============================================================================================
+Search in linked list 
+Node* search(Node* head, int value) { 
+Node* current = head; 
+while (current != NULL) { 
+if (current->data == value) return current; 
+current = current->next; 
+} 
+return NULL; 
+} // O(n)
