@@ -1,0 +1,178 @@
+//example 1
+
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+    
+
+#pragma omp parallel 
+
+#pragma omp for 
+       for(int i=0;i<3;i++)
+           for (int j = 0;j < 8;j++)
+           {
+               printf("i is %d, J is %d, in the thread number :%d \n", i, j, omp_get_thread_num());
+           }
+
+    
+}
+
+//example 2 for private 
+
+#include<iostream>
+#include<omp.h>
+using namespace std;
+
+int main(){
+
+	      omp_set_num_threads(15);
+	      int x = 6;
+		  
+          #pragma omp  parallel 
+	{	
+			  
+			  x=x+10;
+			  printf("x= %d ,inside thread no ID= %d \n", x, omp_get_thread_num());       		
+	}
+}
+
+//example 3 for private 
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+
+    int x = rand() % 100 + 1;
+
+    #pragma omp parallel 
+    {
+        printf("value of x is %d in thread %d \n",x,omp_get_thread_num());
+    
+    }
+}
+
+
+//example 4
+
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+
+
+#pragma omp parallel 
+
+#pragma omp critical
+    {
+        int x = omp_get_num_threads();
+        int id = omp_get_thread_num();
+        cout << "machine have threads " << x<<endl;
+        cout<<"thread ID "<<id<<endl;
+
+    }
+}
+
+
+//example 5
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+
+
+#pragma omp parallel 
+
+#pragma omp for
+    for(int i=0;i<4;i++)
+    {
+        int x = omp_get_num_threads();
+        int id = omp_get_thread_num();
+        printf("machine have %d threads : thread %d \n", x, id);
+
+    }
+
+#pragma omp critical
+    {
+        int x = omp_get_num_threads();
+        int id = omp_get_thread_num();
+        printf("machine have %d threads : thread %d \n", x, id);
+
+    }
+
+
+}
+
+
+//example 6
+
+#include <iostream>
+#include <omp.h>
+using namespace std;
+int main() {
+    int sum = 0;
+    int local_sum = 0;
+
+#pragma omp parallel
+       
+#pragma omp for
+        for (int i = 0; i < 100; ++i) {
+            local_sum += i;
+        }
+        
+#pragma omp critical
+       {
+
+          sum += local_sum;
+          cout << "local_sum : " <<sum<< endl;
+       }   
+
+}
+
+
+
+
+
+//example 7 for barrier
+
+#include<iostream>
+#include<omp.h>
+using namespace std;
+
+int main() {
+	omp_set_num_threads(5);
+
+     #pragma omp parallel 
+	      {
+		
+		printf("A \n");
+		printf("B \n");
+   
+		printf("hello \n");
+		
+		}
+	}
+// example 8 barrier 2
+
+#include<iostream>
+#include<omp.h>
+using namespace std;
+
+int main() {
+	//omp_set_num_threads(5);
+
+#pragma omp parallel 
+	{
+		int n = omp_get_thread_num();
+		printf("thread %d :A \n",n);
+
+		printf("thread %d :b \n", n);
+
+		printf("thread %d :c \n", n);
+		
+	}
+}

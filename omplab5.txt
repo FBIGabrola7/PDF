@@ -1,0 +1,172 @@
+//example 1 master
+#include <iostream>
+#include <omp.h>
+using namespace std;
+int main() {
+  
+    omp_set_num_threads(20);
+#pragma omp parallel
+    {
+        printf( " A in the thread %d \n " , omp_get_thread_num() );
+        printf( " B in the thread  %d \n ", omp_get_thread_num() );
+
+#pragma omp master
+        {
+            printf("  Master : A in the thread %d \n ", omp_get_thread_num());
+            printf("  Master : B in the thread  %d \n ", omp_get_thread_num());
+        }
+        printf(" C in the thread  %d \n ", omp_get_thread_num());
+    }
+    
+}
+
+
+//example 2 single
+#include <iostream>
+#include <omp.h>
+using namespace std;
+int main() {
+
+    omp_set_num_threads(20);
+#pragma omp parallel
+    {
+        int n = omp_get_thread_num();
+#pragma omp for nowait
+        for (int i = 0;i < 20;i++)
+        {
+            printf("in loop: thread %d in iteration %d \n", n, i);
+        }
+#pragma omp single
+        {
+            int n = omp_get_thread_num();
+            printf("*****in single: thread %d *******\n", n);
+        }
+
+        printf("after single: thread %d \n", n);
+    }
+}
+
+
+
+//example 3
+
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+
+    int sum = 0;
+    omp_set_num_threads(100);
+    double start = omp_get_wtime();
+
+#pragma omp parallel 
+    {
+        for (int i = 0;i <= 1000000;i++)
+        {
+            sum += i;
+        }
+    }
+
+    cout << "sum is :" << sum<<endl;
+    double end = omp_get_wtime();
+    printf("time is : %f",end-start);
+}
+
+
+//example 4
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+
+    int sum1 = 0;
+    double start1= omp_get_wtime();
+    
+    for (int i = 0;i <= 100000000;i++)
+    {
+        sum1 += i;
+    }
+    double end1= omp_get_wtime();
+    cout << "sum is :" << sum1 << endl;
+    printf("time in sequential is : %f \n", end1 - start1);
+
+
+    //////////////////////////////////////////////////////////
+    double start2 = omp_get_wtime();
+    int sum2 = 0;
+#pragma omp parallel 
+    {
+#pragma omp for reduction(+:sum2)
+        for (int i = 0;i <= 100000000;i++)
+        {
+            sum2 += i;
+        }
+    }
+
+    cout << "sum is :" << sum2<<endl;
+    double end2 = omp_get_wtime();
+    printf("time is  parallel is : %f",end2-start2);
+}
+
+
+//example 5 atomic
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+
+    int sum1 = 0;
+    double start1= omp_get_wtime();
+    
+    for (int i = 0;i <= 100000000;i++)
+    {
+        sum1 += i;
+    }
+    double end1= omp_get_wtime();
+    cout << "sum is :" << sum1 << endl;
+    printf("time in sequential is : %f \n", end1 - start1);
+
+
+    //////////////////////////////////////////////////////////
+    double start2 = omp_get_wtime();
+    int sum2 = 0;
+#pragma omp parallel 
+    {
+#pragma omp for
+        for (int i = 0;i <= 100000000;i++)
+        {
+         #pragma omp atomic
+            sum2 += i;
+        }
+    }
+
+    cout << "sum is :" << sum2<<endl;
+    double end2 = omp_get_wtime();
+    printf("time is  parallel is : %f",end2-start2);
+}
+
+
+
+//example 6 ordered
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+
+    int arr[11];
+#pragma omp parallel 
+    {
+#pragma omp for 
+        for (int i = 0;i < 11;i++)
+        {
+            arr[i] = i;      
+
+            cout << arr[i] << endl;
+        }
+     
+    }
+}

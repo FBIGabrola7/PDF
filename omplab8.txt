@@ -1,0 +1,89 @@
+//example 2 for private 
+
+#include<iostream>
+#include<omp.h>
+using namespace std;
+
+int main(){
+
+	      omp_set_num_threads(15);
+	      int x = 6;
+		  
+          #pragma omp  parallel 
+	{	
+			  
+			  x=x+10;
+			  printf("x= %d ,inside thread no ID= %d \n", x, omp_get_thread_num());       		
+	}
+}
+
+
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+    int x = 1; 
+
+#pragma omp parallel
+    {
+#pragma omp for 
+
+        for (int i = 0; i < 4; i++) {
+            x = i+5;
+            printf("Thread %d, Iteration %d: x = %d\n", omp_get_thread_num(), i, x);
+        }
+    }
+    printf("After the parallel region, x = %d\n", x);
+
+}
+
+#include <iostream>
+#include <omp.h>
+
+int x = 10;
+#pragma omp threadprivate(x)
+
+int main() {
+
+#pragma omp parallel num_threads(4) 
+    {
+        x = x+omp_get_thread_num(); 
+        printf("Thread %d: x = %d\n", omp_get_thread_num(), x);
+    }
+
+    
+    printf("After parallel region, x (master thread) = %d\n", x);
+}
+
+#include <iostream>
+#include <omp.h>
+
+int main() {
+    
+#pragma omp parallel 
+    {
+
+#pragma omp sections 
+        {
+#pragma omp section
+            {
+                printf("Thread %d executing task 1 and print A\n", omp_get_thread_num());
+                printf("Thread %d executing task 1 and print B\n", omp_get_thread_num());
+                printf("Thread %d executing task 1 and print c\n", omp_get_thread_num());
+             
+            }
+#pragma omp section
+            {
+                printf("Thread %d executing task 2 and print D\n", omp_get_thread_num());
+                printf("Thread %d executing task 2 and print E\n", omp_get_thread_num());
+            }
+#pragma omp section
+            {
+                printf("Thread %d executing task 3 and print hello\n", omp_get_thread_num());
+            }
+        }
+    }
+
+    return 0;
+}
