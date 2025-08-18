@@ -1,0 +1,197 @@
+//first example for loop
+
+#include<iostream>
+#include<omp.h>
+using namespace std;
+
+int main(){
+                #pragma omp parallel 	
+		for (int i = 0;i < 10;i++) {
+			cout << "thread ID:" << omp_get_thread_num() << endl;
+                        cout << "value of i is "<<i <<endl;			
+		}
+}
+
+
+//second example #pragma omp for
+
+#include<iostream>
+#include<omp.h>
+using namespace std;
+
+int main(){
+               #pragma omp parallel 
+{
+                	        
+		for (int i = 0;i < 10;i++) {
+			printf("thread ID %d value of i is %d \n" , omp_get_thread_num(),i);			
+		}
+                    
+}
+              cout << "end loop \n";
+}
+
+//third example 
+
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+
+    int sum = 0;
+    omp_set_num_threads(100);
+
+     #pragma omp parallel 
+    
+        for (int i = 0;i <= 1000;i++)
+        {
+            sum += i;
+        }
+    
+    cout << "sum is :" << sum;
+}
+
+//example 4
+
+#include<iostream>
+#include<omp.h>
+using namespace std;
+
+int main(){
+               #pragma omp parallel 
+{
+                
+	        #pragma omp for
+		for (int i = 0;i < 10;i++) {
+			printf("thread ID %d value of i is %d \n" , omp_get_thread_num(),i);			
+		}
+                  #pragma omp for
+		for (int i = 0;i < 10;i++) {
+			printf("thread ID %d value of i is %d \n" , omp_get_thread_num(),i);			
+		}
+}
+
+//example 5
+#include<iostream>
+#include<omp.h>
+using namespace std;
+
+int main() {
+#pragma omp parallel 
+	{
+
+#pragma omp for nowait
+		for (int i = 0;i < 10;i++) {
+			printf("loop 1 :thread ID %d value of i is %d \n", omp_get_thread_num(), i);
+		}
+		
+#pragma omp for nowait
+		for (int i = 0;i < 5;i++) {
+			printf("loop 2: thread ID %d value of i is %d \n", omp_get_thread_num(), i);
+		}
+	
+#pragma omp for
+	for (int i = 0;i < 3;i++) {
+		printf("loop 3: thread ID %d value of i is %d \n", omp_get_thread_num(), i);
+	}
+
+}
+}
+
+//example for private 6
+
+#include<iostream>
+#include<omp.h>
+using namespace std;
+
+int main(){
+
+	      omp_set_num_threads(15);
+	      int x = 6;
+		  
+          #pragma omp  parallel 
+	{	
+			  
+			  x=x+10;
+			  printf("x= %d ,inside thread no ID= %d \n", x, omp_get_thread_num());       		
+	}
+}
+
+//example 7
+
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+
+
+#pragma omp parallel 
+
+#pragma omp critical
+    {
+        int x = omp_get_num_threads();
+        int id = omp_get_thread_num();
+        cout << "machine have threads " << x<<endl;
+        cout<<"thread ID "<<id<<endl;
+
+    }
+}
+
+
+//example 8
+#include <iostream>
+#include <omp.h>
+using namespace std;
+
+int main() {
+
+
+#pragma omp parallel 
+
+#pragma omp for
+    for(int i=0;i<4;i++)
+    {
+        int x = omp_get_num_threads();
+        int id = omp_get_thread_num();
+        printf("machine have %d threads : thread %d \n", x, id);
+
+    }
+
+#pragma omp critical
+    {
+        int x = omp_get_num_threads();
+        int id = omp_get_thread_num();
+        printf("machine have %d threads : thread %d \n", x, id);
+
+    }
+
+
+}
+example 9
+
+#include <iostream>
+#include <omp.h>
+using namespace std;
+int main() {
+    int sum = 0;
+    int local_sum = 0;
+
+#pragma omp parallel
+       
+#pragma omp for
+        for (int i = 0; i < 100; ++i) {
+            local_sum += i;
+        }
+        
+#pragma omp critical
+       {
+
+          sum += local_sum;
+          cout << "local_sum : " <<sum<< endl;
+       }   
+
+}
+
+
